@@ -38,4 +38,19 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     const userSnapshot = await getDoc(userDocRef);
     console.log(userSnapshot.exists()) //users가 있는지
 
+    if (!userSnapshot.exists()) { //User가 없을 경우
+        const {displayName, email} = userAuth;
+        const createdAt = new Date();
+
+        try {
+            await setDoc(userDocRef,{
+                displayName,
+                email,
+                createdAt
+            });
+        } catch (error){
+            console.log('error creating the user', error.message);
+        }
+    }
+
 };
