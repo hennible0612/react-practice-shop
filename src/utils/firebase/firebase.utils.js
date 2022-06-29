@@ -26,14 +26,15 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
+
 
 export const db = getFirestore(); //db 접속할수 있게끔 export
 
 export const createUserDocumentFromAuth = async (userAuth) => {
-    const userDocRef = doc(db, 'users', userAuth.uid ) //해당 user 있는지 확인
+    const userDocRef = doc(db, 'users', userAuth.uid) //해당 user 있는지 확인
 
-    console.log(userDocRef)
 
     const userSnapshot = await getDoc(userDocRef);
     console.log(userSnapshot.exists()) //users가 있는지
@@ -43,12 +44,12 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         const createdAt = new Date();
 
         try {
-            await setDoc(userDocRef,{
+            await setDoc(userDocRef, {
                 displayName,
                 email,
                 createdAt
             });
-        } catch (error){
+        } catch (error) {
             console.log('error creating the user', error.message);
         }
     }
