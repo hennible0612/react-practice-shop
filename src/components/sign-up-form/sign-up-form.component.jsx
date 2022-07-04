@@ -1,8 +1,12 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {createAuthUserWithEmailAndPassword, createUserDocumentFromAuth} from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import './sign-up-form.style.scss'
 import Button from "../button/button.component";
+
+import {UserContext} from "../../contexts/user.context";
+
+
 const defaultFormFields = {
     displayName: '',
     email: '',
@@ -16,6 +20,9 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields) // 여기서 formFields를 defaultFormFields를 가르킨다.
     const {displayName, email, password, confirmPassword} = formFields; //destruct
 
+    const {setCurrentUser} = useContext(UserContext)
+
+
     const handleChange = (event) => { //onChange를 사용하여 호출 onchange는 event return 함
         const {name, value} = event.target;
 
@@ -26,6 +33,7 @@ const SignUpForm = () => {
         setFormFields(defaultFormFields)
 
     };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -34,9 +42,14 @@ const SignUpForm = () => {
             return;
         }
 
+
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password);
+
+            setCurrentUser(user)
+
             await createUserDocumentFromAuth(user, {displayName});
+
             resetFormFields()
         } catch (error) {
             resetFormFields()
