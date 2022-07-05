@@ -7,6 +7,7 @@ import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    signOut
 } from 'firebase/auth'
 import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore' //firesotre 도큐먼트(DB)에 접속
 // TODO: Add SDKs for Firebase products that you want to use
@@ -83,3 +84,5 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) =>{
     }
     return await signInWithEmailAndPassword(auth, email, password);
 }
+
+export const signOutUser = async () => await signOut(auth);
