@@ -7,7 +7,8 @@ import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    onAuthStateChanged,
 } from 'firebase/auth'
 import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore' //firesotre 도큐먼트(DB)에 접속
 // TODO: Add SDKs for Firebase products that you want to use
@@ -67,7 +68,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     }
     return userDocRef;
 };
-
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) {
         return;
@@ -86,3 +87,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) =>{
 }
 
 export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>{
+    onAuthStateChanged(auth, callback); //onAuthStateChanged가 실행될려고 하면 auth랑 callback이 필요함
+}

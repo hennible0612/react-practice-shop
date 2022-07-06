@@ -31,6 +31,8 @@ const SignInForm = () => {
 
     const signInWithGoogle = async () => {
         const {user} = await signInWithGooglePopup();
+        // setCurrentUser(user) // 로그인시 userContext를 사용해서 현재 User저장
+
         await createUserDocumentFromAuth(user)
 
     };
@@ -43,8 +45,7 @@ const SignInForm = () => {
         try {
             const {user} = await signInAuthUserWithEmailAndPassword(email, password);
 
-            setCurrentUser(user) // 로그인시 userContext를 사용해서 현재 User저장
-            console.log(user)
+            // setCurrentUser(user) // 로그인시 userContext를 사용해서 현재 User저장
             resetFormFields()
         } catch (error) {
 
