@@ -88,6 +88,8 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) =>{
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback) =>{
-    onAuthStateChanged(auth, callback); //onAuthStateChanged가 실행될려고 하면 auth랑 callback이 필요함
-}
+export const onAuthStateChangedListener = (callback) => {
+    onAuthStateChanged(auth, callback); //onAuthStateChanged가 실행될려고 하면 auth랑 callback이 필요함 // auth가 바뀔때마다 실행
+    // 한번로드 되면 계속 대기를 한다. // 그래서 onAuthStateChanged의 결과 값을 return 해줘야한다.
+    // obserber pattern // 일반 callback, errorCallback, completedCallback을 줄수 있음
+};

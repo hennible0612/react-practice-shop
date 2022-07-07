@@ -1,4 +1,4 @@
-import {useEffect, useState, useContext} from "react";
+import { useState} from "react";
 import {
     createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth,
@@ -8,7 +8,6 @@ import {
 import FormInput from "../form-input/form-input.component";
 import './sign-in-form.style.scss'
 import Button from "../button/button.component";
-import {UserContext} from "../../contexts/user.context";
 
 const defaultFormFields = {
     email: '',
@@ -21,8 +20,6 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields) // 여기서 formFields를 defaultFormFields를 가르킨다.
     const {email, password} = formFields; //destruct
 
-    const {setCurrentUser} = useContext(UserContext)
-
     const resetFormFields = () => {
         setFormFields({...formFields, ["name"]: " "})
         // setFormFields(defaultFormFields)
@@ -30,23 +27,18 @@ const SignInForm = () => {
     };
 
     const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
+        await signInWithGooglePopup();
         // setCurrentUser(user) // 로그인시 userContext를 사용해서 현재 User저장
-
-        await createUserDocumentFromAuth(user)
 
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-
-
         try {
-            const {user} = await signInAuthUserWithEmailAndPassword(email, password);
+            await signInAuthUserWithEmailAndPassword(email, password);
+            resetFormFields()
 
             // setCurrentUser(user) // 로그인시 userContext를 사용해서 현재 User저장
-            resetFormFields()
         } catch (error) {
 
             switch (error.constructor) {

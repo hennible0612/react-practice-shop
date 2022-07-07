@@ -16,12 +16,9 @@ const defaultFormFields = {
 
 
 const SignUpForm = () => {
-
     const [formFields, setFormFields] = useState(defaultFormFields) // 여기서 formFields를 defaultFormFields를 가르킨다.
     const {displayName, email, password, confirmPassword} = formFields; //destruct
-
-    const {setCurrentUser} = useContext(UserContext)
-
+    // const {setCurrentUser} = useContext(UserContext)
 
     const handleChange = (event) => { //onChange를 사용하여 호출 onchange는 event return 함
         const {name, value} = event.target;
@@ -46,7 +43,7 @@ const SignUpForm = () => {
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password);
 
-            setCurrentUser(user)
+            // setCurrentUser(user)
 
             await createUserDocumentFromAuth(user, {displayName});
 

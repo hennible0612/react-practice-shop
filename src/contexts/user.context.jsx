@@ -1,5 +1,5 @@
 import {createContext, useState, useEffect} from "react";
-import {onAuthStateChangedListener, signOutUser} from "../utils/firebase/firebase.utils";
+import {createUserDocumentFromAuth, onAuthStateChangedListener, signOutUser} from "../utils/firebase/firebase.utils";
 
 
 
@@ -17,9 +17,12 @@ export const UserProvider = ({children}) => {
 
     useEffect(()=> {
         const unsubscribe = onAuthStateChangedListener((user) => {
-            console.log(user)
+            if (user) {
+                createUserDocumentFromAuth(user)
+            }
+            setCurrentUser(user);
         });
-        return unsubscribe
+        return unsubscribe //complete을 하기 위해서 // clean up // stop listening
     },[]);
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
