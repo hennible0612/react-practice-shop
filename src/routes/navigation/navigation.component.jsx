@@ -3,11 +3,16 @@ import {Fragment, useContext} from "react";
 import {ReactComponent as CrwnLogo} from "../../assets/crown.svg";
 import './navigation.styles.scss'
 import {UserContext} from "../../contexts/user.context";
+import {CartContext} from "../../contexts/cart.context";
 import {signOutUser} from "../../utils/firebase/firebase.utils";
+import CartIcon from "../../components/cart-icon/cart-icon.component";
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
+
+
 
 const Navigation = () => {
     const {currentUser} = useContext(UserContext);
-
+    const {isCartOpen} = useContext(CartContext);
     // const signOutHandler = async () => {
     //     await signOutUser(); //undefind return
     //     // setCurrentUser(null); // user를 null로 초기화
@@ -32,8 +37,12 @@ const Navigation = () => {
                             Sign In
                         </Link>)
                     }
+                    <CartIcon/>
                 </div>
+                {/* 만약 둘다 true 일시 <CartDropDown>리턴한다.*/}
+                {isCartOpen && <CartDropdown/>}
             </div>
+
             <Outlet/> {/* 자식들을 rendering 위치 */}
 
         </Fragment>
